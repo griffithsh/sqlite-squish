@@ -38,7 +38,7 @@ Therefore basic functionality must include:
   - Must understand foreign keys and other dependencies and run the statements
     in the correct order.
 - Export the schema and data from a sqlite database into a set of text files.
-  - Must always ouput the same format, to eliminate diff noise.
+  - Must always output the same format and order, to eliminate diff noise.
 - For any given sqlite database, the tool must be able to export, import, then
   export again without diffs from the first export, and the imported database
   must be logically equivalent to the original database.
