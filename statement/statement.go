@@ -27,6 +27,17 @@ func (v Verb) String() string {
 	}
 }
 
+// Dependencies determines the foreign key dependencies of the table if the
+// statement is a Create Statement
+func (s *Statement) Dependencies() []string {
+	if s.Verb != Create {
+		return []string{}
+	}
+	// FIXME I feel like it's a bit premature to work on the dependency
+	// resolver, so for now, we'll return some junk dependencies...
+	return []string{"A", "B", "C"}
+}
+
 // Statements type is needed to satisfy the sort interface
 type Statements []Statement
 
