@@ -1,5 +1,10 @@
 package statement
 
+import (
+	"fmt"
+	"regexp"
+)
+
 // Statement captures a single sql statement, ie INSERT INTO (...) VALUES (...);
 type Statement struct {
 	SQL  string
@@ -51,4 +56,15 @@ func (slice Statements) Less(i, j int) bool {
 
 func (slice Statements) Swap(i, j int) {
 	slice[i], slice[j] = slice[j], slice[i]
+}
+
+// FromString constructs a Statement from a string
+func FromString(s string) (*Statement, error) {
+	if isCreate, err := regexp.MatchString("(?i)^CREATE TABLE ", s); isCreate && err == nil {
+		return &Statement{SQL: s, Verb: Create}, nil
+	}
+	if isInsert, err := regexp.MatchString("(?i)^INSERT INTO ", s); isInsert && err == nil {
+		return &Statement{SQL: s, Verb: Insert}, nil
+	}
+	return nil, fmt.Errorf("A Statement could not be constructed from \"%s\"", s)
 }
