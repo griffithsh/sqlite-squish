@@ -32,6 +32,26 @@ func (v Verb) String() string {
 	}
 }
 
+// Table returns the name of the table that this statement operates upon.
+func (s *Statement) Table() string {
+	var reg *regexp.Regexp
+	switch s.Verb {
+	case Create:
+		reg = regexp.MustCompile(`(?i)^CREATE TABLE \[?(?P<X>[A-Za-z]+)\]?`)
+	case Insert:
+		reg = regexp.MustCompile(`(?i)^INSERT INTO "?(?P<X>[A-Za-z]+)"?`)
+	default:
+		return ""
+	}
+	matches := reg.FindStringSubmatch(s.SQL)
+	if len(matches) == 0 {
+		return ""
+	}
+	// The first match should be everything from the regex, and the second
+	// match should be the capture group.
+	return matches[1]
+}
+
 // Dependencies determines the foreign key dependencies of the table if the
 // statement is a Create Statement
 func (s *Statement) Dependencies() []string {

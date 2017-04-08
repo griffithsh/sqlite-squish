@@ -48,3 +48,20 @@ func TestStatementFromString(t *testing.T) {
 		}
 	}
 }
+
+func TestTable(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{input: "CREATE TABLE Creations;", expected: "Creations"},
+		{input: "INSERT INTO \"Insertions\" () VALUES ()", expected: "Insertions"},
+	}
+
+	for _, test := range tests {
+		out, _ := FromString(test.input)
+		if out.Table() != test.expected {
+			t.Errorf("Expected %s, but got %s", test.expected, out.Table())
+		}
+	}
+}
