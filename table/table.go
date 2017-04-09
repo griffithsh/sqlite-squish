@@ -1,7 +1,7 @@
 package table
 
 import (
-	"errors"
+	"fmt"
 	"sort"
 
 	"github.com/griffithsh/sql-squish/statement"
@@ -19,10 +19,15 @@ type Table struct {
 }
 
 // Add a statement to the Table
-func (t *Table) Add(s statement.Statement) error {
+func (t *Table) Add(s *statement.Statement) error {
 	// It's not coherent to have multiple CREATE statements for a single table.
 	if len(t.Statements) > 0 && s.Verb == statement.Create && t.Statements[0].Verb == statement.Create {
-		return errors.New("Cannot add multiple Create Statements to Table")
+		return fmt.Errorf("Cannot add multiple Create Statements to Table %s", t.Name)
+	}
+
+	// It's a mistake to add a statement for another table
+	if t.Name != s.Table() {
+		return fmt.Errorf("Cannot add Statement for %s to table %s", s.Table(), t.Name)
 	}
 
 	// If we are adding a new create statement to this Table, then we need to
@@ -31,9 +36,17 @@ func (t *Table) Add(s statement.Statement) error {
 		t.Dependencies = s.Dependencies()
 	}
 
-	// After adding a new Statement, it's imperitive to keep the Statements sorted
-	t.Statements = append(t.Statements, s)
+	// After adding a new Statement, it's imperative to keep the Statements sorted.
+	t.Statements = append(t.Statements, *s)
 	sort.Sort(t.Statements)
 
 	return nil
+}
+
+func (t *Table) String() string {
+	var result string
+	for _, s := range t.Statements {
+		result = fmt.Sprintf("%s\n%s", result, s)
+	}
+	return result
 }
