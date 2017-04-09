@@ -88,3 +88,7 @@ func FromString(s string) (*Statement, error) {
 	}
 	return nil, fmt.Errorf("A Statement could not be constructed from \"%s\"", s)
 }
+
+func (s *Statement) String() string {
+	return s.SQL
+}

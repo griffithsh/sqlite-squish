@@ -46,7 +46,7 @@ func (t *Table) Add(s *statement.Statement) error {
 func (t *Table) String() string {
 	var result string
 	for _, s := range t.Statements {
-		result = fmt.Sprintf("%s\n%s", result, s)
+		result = fmt.Sprintf("%s\n%s", result, s.String())
 	}
 	return result
 }

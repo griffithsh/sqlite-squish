@@ -8,7 +8,7 @@ import (
 
 func outputStdout(d database.Database) error {
 	for _, t := range d.Tables {
-		fmt.Println(t.String())
+		fmt.Println(t)
 	}
 	// files, err := db.AsSQL()
 	// if err != nil {
