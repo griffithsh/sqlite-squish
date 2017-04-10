@@ -71,8 +71,16 @@ func splitStatements(input string) []string {
 	var corrected []string
 
 	for _, stmt := range stmts {
+		// Given a collection of statements all ending in a semicolon, then
+		// when Split(), an empty string should be the last element...
+		if stmt == "" {
+			continue
+		}
+
 		// If the last element in corrected has an uneven number of
-		// apostrophes, append this stmt to the last string in corrected.
+		// apostrophes, append this stmt to the last string in corrected as a
+		// semicolon inside a string has been found, and the string is now
+		// missing it's closing apostrophe.
 		size := len(corrected)
 		if size > 0 && strings.Count(corrected[size-1], "'")%2 == 1 {
 			corrected[size-1] = corrected[size-1] + stmt
