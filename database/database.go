@@ -51,10 +51,8 @@ func FromString(input string) (Database, error) {
 		if !ok {
 			output.Tables[stmt.Table()] = &table.Table{Name: stmt.Table()}
 			t = output.Tables[stmt.Table()]
-			//fmt.Printf("output now has %d tables\n", len(output.Tables))
 		}
 		err = t.Add(stmt)
-		//fmt.Printf("table %s now has %d statements\n", t.Name, len(t.Statements))
 		if err != nil {
 			log.Print(err)
 		}
