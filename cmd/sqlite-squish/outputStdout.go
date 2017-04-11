@@ -7,12 +7,6 @@ import (
 )
 
 func outputStdout(d database.Database) error {
-	files, err := d.SortedTables()
-	if err != nil {
-		return err
-	}
-	for _, file := range files {
-		fmt.Print(file)
-	}
+	fmt.Println(d.String())
 	return nil
 }
