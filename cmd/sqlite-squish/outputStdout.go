@@ -7,15 +7,12 @@ import (
 )
 
 func outputStdout(d database.Database) error {
-	for _, t := range d.Tables {
-		fmt.Println(t)
+	files, err := d.SortedTables()
+	if err != nil {
+		return err
 	}
-	// files, err := db.AsSQL()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// for file := range files {
-	// 	fmt.Print(file)
-	// }
+	for _, file := range files {
+		fmt.Print(file)
+	}
 	return nil
 }

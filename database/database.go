@@ -16,16 +16,24 @@ type Database struct {
 }
 
 func (d Database) String() string {
-	// sort tables by their dependencies
-	return "todo - the string representation of this database"
+	tables, err := d.SortedTables()
+	if err != nil {
+		return err.Error()
+	}
+	return strings.Join(tables, "\n")
 }
 
-// AsSQL returns a collection of strings each representing the file contents of
-// a plaintext sql representation of a Table in this Database.
-func (d Database) AsSQL() ([]string, error) {
-	// TODO sort tables by their dependency graphs
-	// return a string representation of each sorted Table
-	return []string{}, nil
+// SortedTables returns a collection of strings, each representing the file
+// contents of a plaintext sql representation of a Table in this Database.
+// The tables are sorted such that tables that are referenced by other tables
+// with foreign keys are output before their dependants.
+func (d Database) SortedTables() ([]string, error) {
+	// TODO - dependency sorting
+	var tables []string
+	for _, t := range d.Tables {
+		tables = append(tables, t.String())
+	}
+	return tables, nil
 }
 
 // FromString creates a logical representation of a sqlite database from a
