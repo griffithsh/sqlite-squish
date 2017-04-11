@@ -50,7 +50,7 @@ func FromString(input string) (Database, error) {
 	output.Tables = map[string]*table.Table{}
 
 	for _, str := range strs {
-		stmt, err := statement.FromString(fmt.Sprintf("%s;", str))
+		stmt, err := statement.FromString(fmt.Sprintf("%s", str))
 		if err != nil {
 			fmt.Println(err)
 			continue
@@ -82,6 +82,11 @@ func splitStatements(input string) []string {
 		if stmt == "" {
 			continue
 		}
+
+		// We need to re-add this semicolon on to the end of each split to
+		// return the statements to their original forms, as it has been
+		// removed by strings.Split().
+		stmt = stmt + ";"
 
 		// If the last element in corrected has an uneven number of
 		// apostrophes, append this stmt to the last string in corrected as a
