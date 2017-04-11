@@ -47,8 +47,8 @@ func (s *Statement) Table() string {
 	if len(matches) == 0 {
 		return ""
 	}
-	// The first match should be everything from the regex, and the second
-	// match should be the capture group.
+	// The first match should be *everything* from the regex, and the second
+	// match should be only the capture group.
 	return matches[1]
 }
 
