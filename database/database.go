@@ -2,9 +2,8 @@ package database
 
 import (
 	"fmt"
-	"strings"
-
 	"log"
+	"strings"
 
 	"github.com/griffithsh/sql-squish/statement"
 	"github.com/griffithsh/sql-squish/table"
@@ -52,7 +51,7 @@ func FromString(input string) (Database, error) {
 	for _, str := range strs {
 		stmt, err := statement.FromString(fmt.Sprintf("%s", str))
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			continue
 		}
 		t, ok := output.Tables[stmt.Table()]
