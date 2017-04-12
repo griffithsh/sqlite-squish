@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/griffithsh/sql-squish/database"
+	"github.com/griffithsh/sqlite-squish/database"
 )
 
 func outputStdout(d database.Database) error {

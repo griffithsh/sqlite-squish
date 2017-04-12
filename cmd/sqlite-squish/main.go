@@ -8,7 +8,7 @@ import (
 
 	"io/ioutil"
 
-	"github.com/griffithsh/sql-squish/database"
+	"github.com/griffithsh/sqlite-squish/database"
 )
 
 var (

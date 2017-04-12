@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/griffithsh/sql-squish/statement"
+	"github.com/griffithsh/sqlite-squish/statement"
 )
 
 // Table is a collection of Statements, and a representation of a sqlite

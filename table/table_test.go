@@ -3,7 +3,7 @@ package table
 import (
 	"testing"
 
-	"github.com/griffithsh/sql-squish/statement"
+	"github.com/griffithsh/sqlite-squish/statement"
 )
 
 func TestAddMultipleCreates(t *testing.T) {

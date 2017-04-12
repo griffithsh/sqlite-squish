@@ -5,8 +5,8 @@ import (
 	"log"
 	"strings"
 
-	"github.com/griffithsh/sql-squish/statement"
-	"github.com/griffithsh/sql-squish/table"
+	"github.com/griffithsh/sqlite-squish/statement"
+	"github.com/griffithsh/sqlite-squish/table"
 )
 
 // Database is a collection of the tables in a database
