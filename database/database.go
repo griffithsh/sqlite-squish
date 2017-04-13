@@ -1,9 +1,12 @@
 package database
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"strings"
+
+	"sort"
 
 	"github.com/griffithsh/sqlite-squish/statement"
 	"github.com/griffithsh/sqlite-squish/table"
@@ -27,12 +30,73 @@ func (d Database) String() string {
 // The tables are sorted such that tables that are referenced by other tables
 // with foreign keys are output before their dependants.
 func (d Database) SortedTables() ([]string, error) {
-	// TODO - dependency sorting
-	var tables []string
+	var sorted []table.Table
+	var visited []table.Table
+	var err error
+
+	// This iteration through alphabetically sorted keys approach is so that
+	// the output is deterministic. Tables should be alphabetically sorted when
+	// there are multiple valid sorts with regards to dependencies.
+	var keys []string
 	for _, t := range d.Tables {
+		keys = append(keys, t.Name)
+	}
+	sort.Strings(keys)
+
+	for _, key := range keys {
+		t := d.Tables[key]
+		sorted, visited, err = visit(t, visited, sorted, d.dependencies)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	// Convert sorted tables to strings.
+	var tables []string
+	for _, t := range sorted {
 		tables = append(tables, t.String())
 	}
 	return tables, nil
+}
+
+func (d Database) dependencies(t *table.Table) []*table.Table {
+	var found []*table.Table
+
+	// Sort dependencies so that output of SortedTables is deterministic.
+	deps := t.Dependencies
+	sort.Strings(deps)
+
+	for _, sdep := range deps {
+		found = append(found, d.Tables[sdep])
+	}
+
+	return found
+}
+
+func visit(t *table.Table, visited []table.Table, sorted []table.Table, dependencies func(*table.Table) []*table.Table) ([]table.Table, []table.Table, error) {
+	if !contains(visited, t) {
+		visited = append(visited, *t)
+		for _, dep := range dependencies(t) {
+			var err error
+			sorted, visited, err = visit(dep, visited, sorted, dependencies)
+			if err != nil {
+				return nil, nil, err
+			}
+		}
+		sorted = append(sorted, *t)
+	} else if !contains(sorted, t) {
+		return nil, nil, errors.New("Cyclic dependency error")
+	}
+	return sorted, visited, nil
+}
+
+func contains(s []table.Table, find *table.Table) bool {
+	for _, t := range s {
+		if t.Name == find.Name {
+			return true
+		}
+	}
+	return false
 }
 
 // FromString creates a logical representation of a sqlite database from a

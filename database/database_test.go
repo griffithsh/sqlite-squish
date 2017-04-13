@@ -30,3 +30,39 @@ func TestSplitStatementsWithSemicolons(t *testing.T) {
 		t.Errorf("Corruption of statment %s, should be %s", stmts[1], insert)
 	}
 }
+
+func TestSortedTables(t *testing.T) {
+	a := "CREATE TABLE Movie (Id INTEGER AUTOINCREMENT PRIMARY KEY, Director_Id INTEGER REFERENCES Director(Id));"
+	b := "CREATE TABLE Director (Id INTEGER AUTOINCREMENT PRIMARY KEY, Person_Id REFERENCES Person(Id));"
+	c := "CREATE TABLE Actor (Id INTEGER AUTOINCREMENT PRIMARY KEY, Person_Id REFERENCES Person(Id));"
+	d := "CREATE TABLE CastMember (Id INTEGER AUTOINCREMENT PRIMARY KEY, Movie_Id REFERENCES Movie(Id), Actor_Id REFERENCES Actor(Id));"
+	e := "CREATE TABLE Person (Id INTEGER AUTOINCREMENT PRIMARY KEY, Name TEXT);"
+
+	input := []string{b, e, d, a, c}
+
+	db, err := FromString(strings.Join(input, ""))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	tables, err := db.SortedTables()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if tables[0] != e {
+		t.Errorf("Incorrect order, first result should be %s but was %s", e, tables[0])
+	}
+	if tables[1] != c {
+		t.Errorf("Incorrect order, second result should be %s but was %s", c, tables[1])
+	}
+	if tables[2] != b {
+		t.Errorf("Incorrect order, third result should be %s but was %s", b, tables[2])
+	}
+	if tables[3] != a {
+		t.Errorf("Incorrect order, fourth result should be %s but was %s", a, tables[3])
+	}
+	if tables[4] != d {
+		t.Errorf("Incorrect order, fifth result should be %s but was %s", d, tables[4])
+	}
+}
