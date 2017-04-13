@@ -65,3 +65,41 @@ func TestTable(t *testing.T) {
 		}
 	}
 }
+
+func TestDependencies(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected []string
+	}{
+		// Movies have-a Director
+		{
+			"CREATE TABLE [Movie] (Id INTEGER PRIMARY KEY AUTOINCREMENT, Director_Id INTEGER REFERENCES Director(Id));",
+			[]string{"Director"},
+		},
+		// Persons have two other Persons as their biological Mother and Father, but a thing doesn't depend on itself
+		{
+			"CREATE TABLE [Person] (Id INTEGER PRIMARY KEY AUTOINCREMENT, Father_Id INTEGER REFERENCES Person(Id), Mother_Id INTEGER REFERENCES Person(Id));",
+			[]string{},
+		},
+		// Dependencies are sorted in order of appearance
+		{
+			"CREATE TABLE [MovieCast] (Movie_Id INTEGER REFERENCES Movie(Id), Actor_Id INTEGER REFERENCES Actor(Id));",
+			[]string{"Movie", "Actor"},
+		},
+	}
+
+	for _, test := range tests {
+		s, _ := FromString(test.input)
+
+		output := s.Dependencies()
+		if len(output) != len(test.expected) {
+			t.Errorf("Got %d dependencies, but expected (%v)", len(output), test.expected)
+			continue
+		}
+		for i := range test.expected {
+			if output[i] != test.expected[i] {
+				t.Errorf("In index %d, got %s, but expected %s", i, output[i], test.expected[i])
+			}
+		}
+	}
+}

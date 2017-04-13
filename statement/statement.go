@@ -58,9 +58,20 @@ func (s *Statement) Dependencies() []string {
 	if s.Verb != Create {
 		return []string{}
 	}
-	// FIXME I feel like it's a bit premature to work on the dependency
-	// resolver, so for now, we'll return some junk dependencies...
-	return []string{"A", "B", "C"}
+
+	reg := regexp.MustCompile(`(?i)REFERENCES \[?"?(?P<X>[A-Z]+)`)
+	matches := reg.FindAllStringSubmatch(s.SQL, -1)
+	var result []string
+	for _, match := range matches {
+		if len(match) == 0 {
+			continue
+		}
+		if s.Table() != match[1] {
+			result = append(result, match[1])
+		}
+	}
+
+	return result
 }
 
 // Statements type is needed to satisfy the sort interface
