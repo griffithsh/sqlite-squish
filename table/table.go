@@ -44,8 +44,11 @@ func (t *Table) Add(s *statement.Statement) error {
 }
 
 func (t *Table) String() string {
-	var result string
-	for _, s := range t.Statements {
+	if len(t.Statements) == 0 {
+		return ""
+	}
+	result := t.Statements[0].String()
+	for _, s := range t.Statements[1:] {
 		result = fmt.Sprintf("%s\n%s", result, s.String())
 	}
 	return result
