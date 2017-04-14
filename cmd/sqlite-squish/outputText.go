@@ -1,7 +1,12 @@
 package main
 
-import "errors"
+import (
+	"errors"
 
-func outputText(dir string) error {
+	"github.com/griffithsh/sqlite-squish/database"
+)
+
+func outputText(d *database.Database, dir string) error {
+
 	return errors.New("outputText is not implemented")
 }

@@ -28,7 +28,7 @@ func main() {
 	var input string
 	var err error
 
-	// if there is nothing provided for the -in flag, read from Stdin
+	// If there is nothing provided for the -in flag, read from Stdin.
 	if *inFlag == "" {
 		input, err = inputStdin()
 		exitOnError(err)
@@ -39,7 +39,7 @@ func main() {
 			input, err = inputDir(*inFlag)
 			exitOnError(err)
 		} else {
-			input, err = inputFile(*inFlag)
+			input, err = inputDBFile(*inFlag)
 			exitOnError(err)
 		}
 	}
@@ -51,18 +51,18 @@ func main() {
 
 	// The flow should be that if the user specifies a text output, or a db
 	// output, then write those output(s). If they specify neither, then just
-	// falback to stdout.
+	// fallback to Stdout.
 	if *outTextFlag == "" && *outDBFlag == "" {
-		err = outputStdout(d)
+		err = outputStdout(&d)
 		exitOnError(err)
 		return
 	}
 	if *outTextFlag != "" {
-		err = outputText(*outTextFlag)
+		err = outputText(&d, *outTextFlag)
 		exitOnError(err)
 	}
 	if *outDBFlag != "" {
-		err = outputDB(*outDBFlag)
+		err = outputDBFile(&d, *outDBFlag)
 		exitOnError(err)
 	}
 }
