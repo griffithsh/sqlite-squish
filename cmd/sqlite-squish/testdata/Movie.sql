@@ -1,0 +1,4 @@
+CREATE TABLE Movie (Id INTEGER AUTOINCREMENT PRIMARY KEY, Name TEXT NOT NULL, Year INTEGER NOT NULL, Director_Id INTEGER NOT NULL REFERENCES Director(Id));
+
+INSERT INTO Movie (Id,Name,Year,Director_Id) VALUES (1,'Pulp Fiction',1991,1);
+INSERT INTO Movie (Id,Name,Year,Director_Id) VALUES (2,'Spirited Away',2000,2);

@@ -1,0 +1,6 @@
+CREATE TABLE Actor (Id INTEGER AUTOINCREMENT PRIMARY KEY, Person_Id REFERENCES Person(Id));
+INSERT INTO Actor (Id, Person_Id) VALUES (1,1);
+INSERT INTO Actor (Id, Person_Id) VALUES (2,4);
+INSERT INTO Actor (Id, Person_Id) VALUES (3,5);
+INSERT INTO Actor (Id, Person_Id) VALUES (4,7);
+INSERT INTO Actor (Id, Person_Id) VALUES (5,8);
