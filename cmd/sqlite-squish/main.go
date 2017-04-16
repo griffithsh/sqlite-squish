@@ -14,7 +14,7 @@ import (
 var (
 	inFlag      = flag.String("in", "", "Specifies a directory of .sql files, or a sqlite database file to use as input")
 	outDBFlag   = flag.String("out-db", "", "The input will be written into a sqlite database file with this filename")
-	outTextFlag = flag.String("out-text", "", "The input will be written into this directory as a a collection of .sql files, one file per table, where the filename is constructed from the table name")
+	outDirFlag  = flag.String("out-dir", "", "The input will be written into this directory as a a collection of .sql files, one file per table, where the filename is constructed from the table name")
 	verboseFlag = flag.Bool("v", false, "Verbose output")
 )
 
@@ -52,13 +52,13 @@ func main() {
 	// The flow should be that if the user specifies a text output, or a db
 	// output, then write those output(s). If they specify neither, then just
 	// fallback to Stdout.
-	if *outTextFlag == "" && *outDBFlag == "" {
+	if *outDirFlag == "" && *outDBFlag == "" {
 		err = outputStdout(&d)
 		exitOnError(err)
 		return
 	}
-	if *outTextFlag != "" {
-		err = outputText(&d, *outTextFlag)
+	if *outDirFlag != "" {
+		err = outputText(&d, *outDirFlag)
 		exitOnError(err)
 	}
 	if *outDBFlag != "" {
