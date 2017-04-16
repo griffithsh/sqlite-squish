@@ -18,17 +18,20 @@ type Database struct {
 }
 
 func (d Database) String() string {
-	tables, err := d.SortedTables()
+	tableNames, err := d.SortedTables()
 	if err != nil {
 		return err.Error()
 	}
-	return strings.Join(tables, "\n")
+	var tables string
+	for _, name := range tableNames {
+		tables = fmt.Sprintf("%s%s\n", tables, d.Tables[name].String())
+	}
+	return tables
 }
 
-// SortedTables returns a collection of strings, each representing the file
-// contents of a plaintext sql representation of a Table in this Database.
-// The tables are sorted such that tables that are referenced by other tables
-// with foreign keys are output before their dependants.
+// SortedTables returns the table names of the database, sorted alphabetically
+// first, but also sorting tables with references to other tables after those
+// tables they refer to.
 func (d Database) SortedTables() ([]string, error) {
 	var sorted []table.Table
 	var visited []table.Table
@@ -51,12 +54,12 @@ func (d Database) SortedTables() ([]string, error) {
 		}
 	}
 
-	// Convert sorted tables to strings.
-	var tables []string
-	for _, t := range sorted {
-		tables = append(tables, t.String())
+	// Convert sorted tables to their table name as a string.
+	var names []string
+	for _, n := range sorted {
+		names = append(names, n.Name)
 	}
-	return tables, nil
+	return names, nil
 }
 
 func (d Database) dependencies(t *table.Table) []*table.Table {
