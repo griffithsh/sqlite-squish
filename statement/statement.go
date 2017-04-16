@@ -3,6 +3,7 @@ package statement
 import (
 	"fmt"
 	"regexp"
+	"strings"
 )
 
 // Statement captures a single sql statement, ie INSERT INTO (...) VALUES (...);
@@ -91,6 +92,7 @@ func (slice Statements) Swap(i, j int) {
 
 // FromString constructs a Statement from a string
 func FromString(s string) (*Statement, error) {
+	s = strings.Trim(s, "\r\n\t ")
 	if isCreate, err := regexp.MatchString("(?i)^CREATE TABLE ", s); isCreate && err == nil {
 		return &Statement{SQL: s, Verb: Create}, nil
 	}
