@@ -42,3 +42,8 @@ Therefore basic functionality must include:
 - For any given sqlite database, the tool must be able to export, import, then
   export again without diffs from the first export, and the imported database
   must be logically equivalent to the original database.
+
+## Further work
+
+- [ ] Extend sqlite-squish to open and read from a sqlite database directly
+- [ ] Extend sqlite-squish to create and write to a sqlite database directly
