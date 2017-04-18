@@ -51,5 +51,8 @@ func (t *Table) String() string {
 	for _, s := range t.Statements[1:] {
 		result = fmt.Sprintf("%s\n%s", result, s.String())
 	}
+	if t.Name == "sqlite_sequence" {
+		result = fmt.Sprintf("DELETE FROM sqlite_sequence;\n%s",result)
+	}
 	return result
 }
