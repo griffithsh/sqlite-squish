@@ -38,7 +38,7 @@ func outputText(d *database.Database, dir string) error {
 		return err
 	}
 	for _, name := range tableNames {
-		file := d.Tables[name].String()
+		file := fmt.Sprintf("%s\n", d.Tables[name].String())
 		filepath := fmt.Sprintf("%s/%s.sql", info.Name(), name)
 		err = ioutil.WriteFile(filepath, []byte(file), 0644)
 		if err != nil {
