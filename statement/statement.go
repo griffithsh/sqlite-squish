@@ -38,9 +38,9 @@ func (s *Statement) Table() string {
 	var reg *regexp.Regexp
 	switch s.Verb {
 	case Create:
-		reg = regexp.MustCompile(`(?i)^CREATE TABLE \[?(?P<X>[A-Za-z]+)\]?`)
+		reg = regexp.MustCompile(`(?i)^CREATE TABLE \[?(?P<X>[A-Za-z\-_0-9]+)\]?`)
 	case Insert:
-		reg = regexp.MustCompile(`(?i)^INSERT INTO "?(?P<X>[A-Za-z]+)"?`)
+		reg = regexp.MustCompile(`(?i)^INSERT INTO "?(?P<X>[A-Za-z\-_0-9]+)"?`)
 	default:
 		return ""
 	}
@@ -60,7 +60,7 @@ func (s *Statement) Dependencies() []string {
 		return []string{}
 	}
 
-	reg := regexp.MustCompile(`(?i)REFERENCES \[?"?(?P<X>[A-Z]+)`)
+	reg := regexp.MustCompile(`(?i)REFERENCES \[?"?(?P<X>[A-Z\-_0-9]+)`)
 	matches := reg.FindAllStringSubmatch(s.SQL, -1)
 	var result []string
 	for _, match := range matches {

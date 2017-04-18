@@ -56,6 +56,8 @@ func TestTable(t *testing.T) {
 	}{
 		{input: "CREATE TABLE Creations;", expected: "Creations"},
 		{input: "INSERT INTO \"Insertions\" () VALUES ()", expected: "Insertions"},
+		{input: "Insert into Holy_days;", expected: "Holy_days"},
+		{input: "Create TABLE [programs-992] ();", expected: "programs-992"},
 	}
 
 	for _, test := range tests {
