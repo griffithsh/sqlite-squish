@@ -2,7 +2,9 @@ package table
 
 import (
 	"fmt"
+	"regexp"
 	"sort"
+	"strconv"
 
 	"github.com/griffithsh/sqlite-squish/statement"
 )
@@ -43,16 +45,63 @@ func (t *Table) Add(s *statement.Statement) error {
 	return nil
 }
 
+type keyedStatement struct {
+	statement.Statement
+	key string
+}
+type keyedStatements []keyedStatement
+
+func (slice keyedStatements) Len() int {
+	return len(slice)
+}
+
+func (slice keyedStatements) Less(i, j int) bool {
+	if slice[i].Verb == slice[j].Verb {
+		// try integer cast ...
+		iKey, iErr := strconv.ParseInt(slice[i].key, 10, 64)
+		jKey, jErr := strconv.ParseInt(slice[j].key, 10, 64)
+		if iErr != nil || jErr != nil {
+			return slice[i].key < slice[j].key
+		}
+		return iKey < jKey
+	}
+	return slice[i].Verb < slice[j].Verb
+}
+
+func (slice keyedStatements) Swap(i, j int) {
+	slice[i], slice[j] = slice[j], slice[i]
+}
+
 func (t *Table) String() string {
 	if len(t.Statements) == 0 {
 		return ""
 	}
+
+	// Result now contains the CREATE TABLE statement.
 	result := t.Statements[0].String()
+
+	// The assumption here is that the primary key of the table is the first
+	// column, so if we pull it out of the SQL, we can order by that value...
+	var inserts keyedStatements
+	reg := regexp.MustCompile(`(?i)\('?(?P<X>[A-Z\-_0-9]+)'?[\,\)]`)
 	for _, s := range t.Statements[1:] {
+		matches := reg.FindStringSubmatch(s.SQL)
+		var key string
+		if len(matches) > 1 {
+			key = matches[1]
+		}
+		inserts = append(inserts, keyedStatement{s, key})
+	}
+	sort.Sort(inserts)
+
+	for _, s := range inserts {
 		result = fmt.Sprintf("%s\n%s", result, s.String())
 	}
+
+	// We want to blank out the sqlite_sequence table because it accumulates
+	// rows if you don't.
 	if t.Name == "sqlite_sequence" {
-		result = fmt.Sprintf("DELETE FROM sqlite_sequence;\n%s",result)
+		result = fmt.Sprintf("DELETE FROM sqlite_sequence;\n%s", result)
 	}
 	return result
 }

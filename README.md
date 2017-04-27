@@ -47,4 +47,4 @@ Therefore basic functionality must include:
 
 - [ ] Extend sqlite-squish to open and read from a sqlite database directly
 - [ ] Extend sqlite-squish to create and write to a sqlite database directly
-- [ ] Figure out a way to order INSERTs consistently.
+- [x] Figure out a way to order INSERTs consistently.
