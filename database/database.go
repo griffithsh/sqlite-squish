@@ -23,9 +23,11 @@ func (d Database) String() string {
 		return err.Error()
 	}
 	var tables string
+	tables = "BEGIN TRANSACTION;\n"
 	for _, name := range tableNames {
 		tables = fmt.Sprintf("%s%s\n", tables, d.Tables[name].String())
 	}
+	tables = fmt.Sprintf("%s%s\n", tables, "COMMIT;")
 	return tables
 }
 
