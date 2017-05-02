@@ -43,6 +43,19 @@ Therefore basic functionality must include:
   export again without diffs from the first export, and the imported database
   must be logically equivalent to the original database.
 
+## Examples
+Given a sqlite database called `database.sqlite3`, it is possible to decompose
+it to a series of text files like this:
+```bash
+sqlite3 database.sqlite3 .dump | sqlite-squish -v -out-dir ./database.sql
+```
+
+Given a directory of .sql files called `core.sql`, it is possible to compose
+those files into a sqlite database like this:
+```bash
+sqlite-squish -in database.sql | sqlite3 database.sqlite3
+```
+
 ## Further work
 
 - [ ] Extend sqlite-squish to open and read from a sqlite database directly
