@@ -72,6 +72,9 @@ func (d Database) dependencies(t *table.Table) []*table.Table {
 	sort.Strings(deps)
 
 	for _, sdep := range deps {
+		if d.Tables[sdep] == nil {
+			continue
+		}
 		found = append(found, d.Tables[sdep])
 	}
 
@@ -97,6 +100,9 @@ func visit(t *table.Table, visited []table.Table, sorted []table.Table, dependen
 
 func contains(s []table.Table, find *table.Table) bool {
 	for _, t := range s {
+		if find == nil {
+			fmt.Printf("panic on nil ptr deref: %s\n", t.Name)
+		}
 		if t.Name == find.Name {
 			return true
 		}
