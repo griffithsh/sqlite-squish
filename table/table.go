@@ -77,7 +77,7 @@ func (t *Table) String() string {
 		return ""
 	}
 
-	// Result now contains the CREATE TABLE statement.
+	// Result now contains the CREATE TABLE statement which is always stored at index 0.
 	result := t.Statements[0].String()
 
 	// The assumption here is that the primary key of the table is the first

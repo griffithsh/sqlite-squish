@@ -8,8 +8,8 @@ import (
 
 // Statement captures a single sql statement, ie INSERT INTO (...) VALUES (...);
 type Statement struct {
-	SQL  string
-	Verb Verb // A statement type; INSERT, CREATE, etc
+	SQL  string // Original sql statement
+	Verb Verb   // A statement type; INSERT, CREATE, etc
 }
 
 // Verb describes a type of sql statement, INSERT, CREATE, etc
