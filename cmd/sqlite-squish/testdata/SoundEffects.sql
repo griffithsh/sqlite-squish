@@ -1,0 +1,11 @@
+CREATE TABLE SoundEffects (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Filename VARCHAR NOT NULL UNIQUE);
+INSERT INTO "SoundEffects" VALUES(1,'20208__ubecareful__growl1.wav');
+INSERT INTO "SoundEffects" VALUES(2,'34513__erh__wooden-frog.wav');
+INSERT INTO "SoundEffects" VALUES(3,'253471__groadr__growl.ogg');
+INSERT INTO "SoundEffects" VALUES(4,'footstep-rough-1-(sfxr).wav');
+INSERT INTO "SoundEffects" VALUES(5,'FOOTSTEP');
+INSERT INTO "SoundEffects" VALUES(6,'footstep-rough-2-(sfxr).wav');
+INSERT INTO "SoundEffects" VALUES(7,'player-hit-rough-(sfxr).wav');
+INSERT INTO "SoundEffects" VALUES(8,'club-swing-1-(sfxr).wav');
+INSERT INTO "SoundEffects" VALUES(9,'club-swing-2-(sfxr).wav');
+INSERT INTO "SoundEffects" VALUES(10,'whomp-(sfxr).wav');

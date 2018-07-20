@@ -1,0 +1,10 @@
+CREATE TABLE EnchantmentPoolEnchantments (EnchantmentPool_Id INTEGER REFERENCES EnchantmentPools (Id) ON DELETE CASCADE NOT NULL, Enchantment_Id INTEGER REFERENCES Enchantments (Id) ON DELETE CASCADE NOT NULL, Chances INTEGER CHECK ((Chances > 0)) DEFAULT (1) NOT NULL);
+INSERT INTO "EnchantmentPoolEnchantments" VALUES(1,1,1);
+INSERT INTO "EnchantmentPoolEnchantments" VALUES(1,2,1);
+INSERT INTO "EnchantmentPoolEnchantments" VALUES(1,3,1);
+INSERT INTO "EnchantmentPoolEnchantments" VALUES(1,4,1);
+INSERT INTO "EnchantmentPoolEnchantments" VALUES(1,5,1);
+INSERT INTO "EnchantmentPoolEnchantments" VALUES(1,6,1);
+INSERT INTO "EnchantmentPoolEnchantments" VALUES(1,7,1);
+INSERT INTO "EnchantmentPoolEnchantments" VALUES(2,5,5);
+INSERT INTO "EnchantmentPoolEnchantments" VALUES(2,2,5);

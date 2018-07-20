@@ -1,0 +1,8 @@
+CREATE TABLE WeaponRecipes (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ItemRecipe_Id INTEGER NOT NULL REFERENCES ItemRecipes (Id), Level INTEGER NOT NULL DEFAULT (1) CHECK ((Level >= 1 AND Level <= 7)), WeaponType_Enum TEXT NOT NULL, EquipmentSkin_Id INTEGER NOT NULL REFERENCES EquipmentSkins (Id), EnchantmentPool_Id INTEGER REFERENCES EnchantmentPools (Id));
+INSERT INTO "WeaponRecipes" VALUES(1,2,2,'SWORD',2,1);
+INSERT INTO "WeaponRecipes" VALUES(2,4,3,'BOW',5,NULL);
+INSERT INTO "WeaponRecipes" VALUES(3,5,3,'WHIP',3,2);
+INSERT INTO "WeaponRecipes" VALUES(4,6,1,'CLUB',1,1);
+INSERT INTO "WeaponRecipes" VALUES(5,7,4,'AXE',6,1);
+INSERT INTO "WeaponRecipes" VALUES(6,8,5,'SPEAR',7,1);
+INSERT INTO "WeaponRecipes" VALUES(7,9,3,'WAND',4,NULL);

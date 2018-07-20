@@ -1,0 +1,14 @@
+CREATE TABLE EquipmentSkins (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Description TEXT NOT NULL, IconAnimation_Id INTEGER NOT NULL, Backstory TEXT, NativeLocation_Id INTEGER, HeldWeapon_Id INTEGER REFERENCES HeldWeapons (Id), ColorScheme_Id INTEGER REFERENCES ColorSchemes (Id) ON DELETE SET NULL);
+INSERT INTO "EquipmentSkins" VALUES(1,'Boring Club',53,'This Club was the first one I made.',1,2,1);
+INSERT INTO "EquipmentSkins" VALUES(2,'Boring Sword',54,'A white sword.',2,1,1);
+INSERT INTO "EquipmentSkins" VALUES(3,'Boring Whip',55,'Poorly drawn',3,NULL,NULL);
+INSERT INTO "EquipmentSkins" VALUES(4,'Boring Wand',56,'This doesn''t even look like a wand!',4,NULL,NULL);
+INSERT INTO "EquipmentSkins" VALUES(5,'Boring Bow',57,'Used to be a branch and a horses tail, but now it shoots arrows.',5,NULL,NULL);
+INSERT INTO "EquipmentSkins" VALUES(6,'Boring Axe',58,'Chop! Chop! Hew!',6,NULL,NULL);
+INSERT INTO "EquipmentSkins" VALUES(7,'Boring Spear',59,'Pokey-pokey.',1,NULL,NULL);
+INSERT INTO "EquipmentSkins" VALUES(8,'Tin Chestplate',60,'This looks really protective!',2,NULL,NULL);
+INSERT INTO "EquipmentSkins" VALUES(9,'White Ring',61,'This is a ghost of a ring.',3,NULL,NULL);
+INSERT INTO "EquipmentSkins" VALUES(10,'White Hood',62,'A cowl for your head. It looks spooky!',4,NULL,NULL);
+INSERT INTO "EquipmentSkins" VALUES(11,'White Boots',63,'Clomp clomp clomp; good for splashing puddles.',5,NULL,NULL);
+INSERT INTO "EquipmentSkins" VALUES(12,'Wooden Club',289,'It''s got a smooth bit that makes a nice handle, and the other end has some weight, but it''s really just a stick ...',1,2,2);
+INSERT INTO "EquipmentSkins" VALUES(13,'Bone Club',288,'Foes fear failure when you fight furiously with this frightening femur',1,2,3);

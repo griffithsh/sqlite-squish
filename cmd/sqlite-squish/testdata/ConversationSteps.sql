@@ -1,0 +1,11 @@
+CREATE TABLE ConversationSteps (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Conversation_Id INTEGER NOT NULL, AutomaticallyCompletesAfterSeconds INTEGER NOT NULL DEFAULT (- 1), TakesControl BOOLEAN NOT NULL DEFAULT (1), Face_Enum TEXT NOT NULL DEFAULT ('NONE'), Perform_Enum TEXT DEFAULT ('IDLE') NOT NULL, ConversationMenu_Id INTEGER, Text TEXT, XCenter DOUBLE, YCenter DOUBLE, OwnerIdentity TEXT, HasCameraFocus BOOLEAN NOT NULL DEFAULT (0), CameraFocusX DOUBLE, CameraFocusY DOUBLE, EntityCameraFocus TEXT, TriggerOccurrence_Id INTEGER, Sleep BOOLEAN DEFAULT (0) NOT NULL);
+INSERT INTO "ConversationSteps" VALUES(1,1,3,1,'NONE','IDLE',NULL,'Those with a rope may be able to pass the cliffs...',0.5,0.5,NULL,0,NULL,NULL,NULL,NULL,0);
+INSERT INTO "ConversationSteps" VALUES(2,1,0,1,'NONE','IDLE',NULL,NULL,0.5,0.5,'PROTAGONIST',1,470.0,500.0,NULL,NULL,0);
+INSERT INTO "ConversationSteps" VALUES(3,1,-1,1,'S','IDLE',NULL,'Hmm, what have I got that''s ropey? Should I check the inventory?',0.75,0.5,'PROTAGONIST',0,NULL,NULL,NULL,NULL,0);
+INSERT INTO "ConversationSteps" VALUES(4,1,-1,1,'NONE','IDLE',1,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,0);
+INSERT INTO "ConversationSteps" VALUES(5,1,3,0,'NONE','IDLE',NULL,'Buh-bye! :)',0.5,0.5,NULL,1,NULL,NULL,'DUMMY',6,0);
+INSERT INTO "ConversationSteps" VALUES(6,3,-1,1,'NONE','IDLE',NULL,'Hi',0.5,0.75,NULL,0,NULL,NULL,NULL,NULL,0);
+INSERT INTO "ConversationSteps" VALUES(7,3,-1,1,'NONE','IDLE',3,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,0);
+INSERT INTO "ConversationSteps" VALUES(8,4,-1,1,'NONE','IDLE',NULL,'Can I sing you a lullabye man?',0.4,0.4,NULL,0,NULL,NULL,NULL,NULL,0);
+INSERT INTO "ConversationSteps" VALUES(9,4,-1,1,'NONE','IDLE',NULL,'',NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,1);
+INSERT INTO "ConversationSteps" VALUES(10,4,2,0,'NONE','IDLE',NULL,'Did you have a good nap?',0.4,0.4,NULL,0,NULL,NULL,NULL,NULL,0);

@@ -1,0 +1,4 @@
+CREATE TABLE ConversationStepWaypoints (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ConversationStep_Id INTEGER NOT NULL, X INTEGER NOT NULL, Y INTEGER NOT NULL);
+INSERT INTO "ConversationStepWaypoints" VALUES(1,2,128,400);
+INSERT INTO "ConversationStepWaypoints" VALUES(2,2,228,500);
+INSERT INTO "ConversationStepWaypoints" VALUES(3,2,370,500);

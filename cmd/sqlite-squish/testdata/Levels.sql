@@ -1,0 +1,10 @@
+CREATE TABLE Levels (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, DefaultFootstepSoundEffect_Id INTEGER, Description TEXT, Zone_Id INTEGER NOT NULL, IsPeaceful BOOLEAN NOT NULL DEFAULT (0));
+INSERT INTO "Levels" VALUES(1,4,'',2,0);
+INSERT INTO "Levels" VALUES(2,4,'tiny! (3x3)',2,0);
+INSERT INTO "Levels" VALUES(3,4,'leaving shade(4x4)',2,0);
+INSERT INTO "Levels" VALUES(4,4,'big testbed',2,0);
+INSERT INTO "Levels" VALUES(5,4,'cliffside',1,0);
+INSERT INTO "Levels" VALUES(6,NULL,'The forest',3,0);
+INSERT INTO "Levels" VALUES(7,NULL,'whip testbed ',2,0);
+INSERT INTO "Levels" VALUES(8,4,'Stone Village',4,1);
+INSERT INTO "Levels" VALUES(9,NULL,'West Jungle 2',2,0);

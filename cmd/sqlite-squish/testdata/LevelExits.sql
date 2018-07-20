@@ -1,0 +1,17 @@
+CREATE TABLE LevelExits (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, DestinationLevel_Id INTEGER, DestinationX INTEGER NOT NULL, DestinationY INTEGER NOT NULL, Level_Id INTEGER, Description TEXT, LocationX INTEGER NOT NULL, LocationY INTEGER NOT NULL, Width INTEGER NOT NULL, Height INTEGER NOT NULL, DestinationOrientation CHAR NOT NULL, DestinationZIndex INTEGER, ZIndex INTEGER);
+INSERT INTO "LevelExits" VALUES(1,3,48,32,2,'goes from 9 by 9 to 4 by 4',64,32,32,32,'E',500,500);
+INSERT INTO "LevelExits" VALUES(2,2,32,32,3,'goes from 4 by 4 to the 9er',0,32,32,32,'W',500,500);
+INSERT INTO "LevelExits" VALUES(3,4,724,460,2,'goes to level4',0,0,8,8,'N',500,500);
+INSERT INTO "LevelExits" VALUES(4,2,24,64,4,'goes back to level2',760,504,8,8,'E',500,500);
+INSERT INTO "LevelExits" VALUES(5,5,888,550,3,'3 up to 5',200,0,32,8,'N',500,500);
+INSERT INTO "LevelExits" VALUES(6,3,200,48,5,'5 down to 3',888,600,32,8,'S',500,500);
+INSERT INTO "LevelExits" VALUES(7,6,180,32,3,'Goes to fancy forest',32,240,48,16,'S',500,500);
+INSERT INTO "LevelExits" VALUES(8,3,40,200,6,'Goes up to partial shade',170,0,48,16,'N',500,500);
+INSERT INTO "LevelExits" VALUES(9,7,128,700,4,'To Whip testbed',707,1,60,33,'N',1500,1500);
+INSERT INTO "LevelExits" VALUES(10,7,900,350,5,'To Whip Testbed',0,83,22,32,'W',1500,500);
+INSERT INTO "LevelExits" VALUES(11,4,650,64,7,'To totem jungle',0.5,745,256.5,22.5,'S',1500,1500);
+INSERT INTO "LevelExits" VALUES(12,5,64,164,7,'Out to Cliffide',994,342.5,32,113,'S',500,1500);
+INSERT INTO "LevelExits" VALUES(13,8,650,1516,7,'To Stone Village',200,0,64,32,'N',500,1500);
+INSERT INTO "LevelExits" VALUES(14,7,200,64,8,'To whip testbed',650,1568,128,32,'S',1500,500);
+INSERT INTO "LevelExits" VALUES(15,9,1436,1200,8,'To West Jungle',0,0,32,128,'W',500,500);
+INSERT INTO "LevelExits" VALUES(16,8,64,96,9,'To Stone Village',1510,1260,80,80,'E',500,500);

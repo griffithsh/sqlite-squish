@@ -1,0 +1,3 @@
+CREATE TABLE HeldWeapons (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Description TEXT NOT NULL);
+INSERT INTO "HeldWeapons" VALUES(1,'Simple Sword');
+INSERT INTO "HeldWeapons" VALUES(2,'Club');

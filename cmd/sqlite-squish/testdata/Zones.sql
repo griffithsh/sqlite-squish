@@ -1,0 +1,5 @@
+CREATE TABLE Zones (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Description TEXT NOT NULL);
+INSERT INTO "Zones" VALUES(1,'Cliffside');
+INSERT INTO "Zones" VALUES(2,'Jungle');
+INSERT INTO "Zones" VALUES(3,'Forest');
+INSERT INTO "Zones" VALUES(4,'Stone Village');

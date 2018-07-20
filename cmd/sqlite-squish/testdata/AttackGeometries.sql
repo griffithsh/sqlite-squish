@@ -1,0 +1,15 @@
+CREATE TABLE AttackGeometries (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, LifespanMs INTEGER DEFAULT (0) NOT NULL, Description TEXT, ForwardOffset INTEGER, SidewaysOffset INTEGER, ForwardLength INTEGER, SidewaysLength INTEGER);
+INSERT INTO "AttackGeometries" VALUES(1,1750,'expanding gas cloud',0,0,128,128);
+INSERT INTO "AttackGeometries" VALUES(2,300,'Sword Swing',32,-16,32,8);
+INSERT INTO "AttackGeometries" VALUES(3,100,'Sword Stab',48,0,16,8);
+INSERT INTO "AttackGeometries" VALUES(4,3000,'a simple arrow',24,0,32,4);
+INSERT INTO "AttackGeometries" VALUES(5,300,'venus girl trap lunge attack',72,0,24,48);
+INSERT INTO "AttackGeometries" VALUES(6,50,'Whip default hit zone',128,0,64,64);
+INSERT INTO "AttackGeometries" VALUES(7,200,'Hew hit zone',64,12,48,12);
+INSERT INTO "AttackGeometries" VALUES(8,450,'Spin hit zone',0,0,48,48);
+INSERT INTO "AttackGeometries" VALUES(9,516,'Whirlpool sweep zone',0,0,32,32);
+INSERT INTO "AttackGeometries" VALUES(10,50,'Whirlpool hit zone',64,0,32,32);
+INSERT INTO "AttackGeometries" VALUES(11,450,'Ground Pound',32,0,0,0);
+INSERT INTO "AttackGeometries" VALUES(12,150,'CLUB generic',48,0,18,18);
+INSERT INTO "AttackGeometries" VALUES(13,300,'CLUB uppercut',48,0,24,12);
+INSERT INTO "AttackGeometries" VALUES(14,450,'CLUB mega pound',32,0,96,96);

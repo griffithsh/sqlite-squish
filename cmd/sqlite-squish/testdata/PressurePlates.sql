@@ -1,0 +1,2 @@
+CREATE TABLE PressurePlates (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Description TEXT, AnimatedActivatable_Id INTEGER NOT NULL, Width INTEGER NOT NULL, Height INTEGER NOT NULL);
+INSERT INTO "PressurePlates" VALUES(1,'demo rough grass',3,24,32);
