@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 
 	"github.com/griffithsh/sqlite-squish/database"
+	"github.com/griffithsh/sqlite-squish/database/from"
 )
 
 var (
@@ -25,44 +26,43 @@ func main() {
 		log.SetOutput(ioutil.Discard)
 	}
 
-	var input string
+	var d *database.Database
 	var err error
 
 	// If there is nothing provided for the -in flag, read from Stdin.
 	if *inFlag == "" {
-		input, err = inputStdin()
+		d, err = from.Reader(os.Stdin)
 		exitOnError(err)
 	} else {
 		info, err := os.Stat(*inFlag)
 		exitOnError(err)
 		if info.IsDir() {
-			input, err = inputDir(*inFlag)
+			d, err = from.Directory(*inFlag)
 			exitOnError(err)
 		} else {
-			input, err = inputDBFile(*inFlag)
+			d, err = from.SQLite(*inFlag)
 			exitOnError(err)
 		}
 	}
 
 	// This is the point at which the input, wherever it came from, is
 	// composed into the intermediary format, ready for output.
-	d, err := database.FromString(input)
-	exitOnError(err)
+	// d, err := database.FromString(input)
+	// exitOnError(err)
 
 	// The flow should be that if the user specifies a text output, or a db
 	// output, then write those output(s). If they specify neither, then just
 	// fallback to Stdout.
 	if *outDirFlag == "" && *outDBFlag == "" {
-		err = outputStdout(&d)
-		exitOnError(err)
+		fmt.Println(d.String())
 		return
 	}
 	if *outDirFlag != "" {
-		err = outputText(&d, *outDirFlag)
+		err = d.Directory(*outDirFlag)
 		exitOnError(err)
 	}
 	if *outDBFlag != "" {
-		err = outputDBFile(&d, *outDBFlag)
+		err = d.File(*outDBFlag)
 		exitOnError(err)
 	}
 }

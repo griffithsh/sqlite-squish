@@ -112,7 +112,7 @@ func contains(s []table.Table, find *table.Table) bool {
 
 // FromString creates a logical representation of a sqlite database from a
 // series of sql statements in a string.
-func FromString(input string) (Database, error) {
+func FromString(input string) (*Database, error) {
 	// NB, expecting input from a command like this:
 	// (sqlite3 db.sqlite .schema; sqlite3 db.sqlite .dump | grep '^INSERT ') | ...
 	// or even
@@ -140,7 +140,7 @@ func FromString(input string) (Database, error) {
 		}
 	}
 
-	return output, nil
+	return &output, nil
 }
 
 func splitStatements(input string) []string {

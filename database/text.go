@@ -1,4 +1,4 @@
-package main
+package database
 
 import (
 	"io/ioutil"
@@ -6,11 +6,10 @@ import (
 	"fmt"
 
 	"os"
-
-	"github.com/griffithsh/sqlite-squish/database"
 )
 
-func outputText(d *database.Database, dir string) error {
+// Directory output the Database as a directory of .sql text files.
+func (d *Database) Directory(dir string) error {
 	// If dir does not exist, create it.
 	info, err := os.Lstat(dir)
 	if err != nil {

@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/griffithsh/sqlite-squish/database"
+	"github.com/griffithsh/sqlite-squish/database/from"
 )
 
 func TestDirToSqliteToText(t *testing.T) {
@@ -17,36 +17,31 @@ func TestDirToSqliteToText(t *testing.T) {
 	}
 	defer os.RemoveAll("./testdata/output")
 
-	in, err := inputDir("./testdata")
+	// Start by interpreting the testdata.
+	d, err := from.Directory("./testdata")
 	if err != nil {
 		t.Fatalf("input testdata: %s", err)
 	}
 
-	d, err := database.FromString(in)
-	if err != nil {
-		t.Fatalf("interpret testdata: %s", err)
-	}
-
-	err = outputDBFile(&d, "./testdata/output/tmp.sqlite")
+	// Write the interpretation to a tmp sqlite file.
+	err = d.File("./testdata/output/tmp.sqlite")
 	if err != nil {
 		t.Fatalf("output test db: %s", err)
 	}
-	in, err = inputDBFile("./testdata/output/tmp.sqlite")
+
+	// Interpret the tmp sqlite database we just wrote.
+	d, err = from.SQLite("./testdata/output/tmp.sqlite")
 	if err != nil {
 		t.Fatalf("input temp db: %s", err)
 	}
 
-	d, err = database.FromString(in)
-	if err != nil {
-		t.Fatalf("interpret temp db: %s", err)
-	}
-
-	err = outputText(&d, "./testdata/output")
+	// Write the freshly interpreted database to the testdata output directory.
+	err = d.Directory("./testdata/output")
 	if err != nil {
 		t.Fatalf("output test data: %s", err)
 	}
 
-	// diff
+	// Compare the original testdata to the output testdata.
 	files, err := ioutil.ReadDir("./testdata")
 	for _, file := range files {
 		name := file.Name()

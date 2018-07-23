@@ -1,4 +1,4 @@
-package main
+package from
 
 import (
 	"database/sql"
@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/griffithsh/sqlite-squish/database"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -100,15 +101,16 @@ func getInserts(db *sql.DB, table string) (string, error) {
 	return strings.Join(inserts, "\n"), nil
 }
 
-func inputDBFile(file string) (string, error) {
-	db, err := sql.Open("sqlite3", file)
+// SQLite composes a Database from a sqlite database file
+func SQLite(filename string) (*database.Database, error) {
+	db, err := sql.Open("sqlite3", filename)
 	if err != nil {
-		return "", fmt.Errorf("Open: %s", err)
+		return nil, fmt.Errorf("Open: %s", err)
 	}
 	defer db.Close()
 	rows, err := db.Query(`SELECT tbl_name,sql FROM sqlite_master WHERE type = 'table';`)
 	if err != nil {
-		return "", fmt.Errorf("Query: %s", err)
+		return nil, fmt.Errorf("Query: %s", err)
 	}
 	defer rows.Close()
 	var output string
@@ -116,26 +118,25 @@ func inputDBFile(file string) (string, error) {
 		var ntable, nsql sql.NullString
 		err := rows.Scan(&ntable, &nsql)
 		if err != nil {
-			return "", fmt.Errorf("Scan: %s", err)
+			return nil, fmt.Errorf("Scan: %s", err)
 		}
 		table := ntable.String
 		sql := nsql.String
 
-		// Don't persist sqlite_sequence
-		if table == "sqlite_sequence" {
-			continue
-		}
+		// Don't create sqlite_sequence
+		if table != "sqlite_sequence" {
+			// "CREATE TABLE ..." captured.
+			output = output + sql + ";\n"
 
-		// "CREATE TABLE ..." captured.
-		output = output + sql + ";\n"
+		}
 
 		// Capture all "INSERT INTO ..."s.
 		inserts, err := getInserts(db, table)
 		if err != nil {
-			return "", fmt.Errorf("getInserts for %s: %s", table, err)
+			return nil, fmt.Errorf("getInserts for %s: %s", table, err)
 		}
 		output = output + inserts
 	}
 
-	return output, nil
+	return database.FromString(output)
 }

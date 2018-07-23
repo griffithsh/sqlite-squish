@@ -1,15 +1,15 @@
-package main
+package database
 
 import (
 	"database/sql"
 	"fmt"
 	"strings"
 
-	"github.com/griffithsh/sqlite-squish/database"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func outputDBFile(d *database.Database, file string) error {
+// File outputs the Database as a binary sqlite file.
+func (d *Database) File(file string) error {
 	db, err := sql.Open("sqlite3", file)
 	if err != nil {
 		return fmt.Errorf("create db file: %s", err)
