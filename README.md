@@ -1,63 +1,48 @@
 # sqlite-squish
-A tool to turn one or more plain-text \*.sql files into a sqlite database.
 
-## The problem
+Command line tools to turn one or more plain-text \*.sql files into a sqlite
+database and back again into text.
+
+## Problem Statement
+
 I work on a game that stores its game data (ie, level geometry, animations,
 item type definitions, skills, etc) in a sqlite database. As part of that work,
 I often commit changes to the sqlite database. Because sqlite databases are
 binary files, no meaningful diffs can be committed, and merges cannot be
 performed.
 
-My first approach to solving this was to use the sqlite dump command to export
-the database, which worked reasonably well. The place where I'm unsatisfied
-with this approach though is that I have no control over how the data is
-exported; I just get a single output file, which is difficult to read and edit.
+My first approach to solving this was to use the sqlite .dump command to
+export the database, which worked reasonably well. The place where I'm
+unsatisfied with this approach though is that I have no control over how the
+data is exported; I just get a single output file, which is difficult to read
+and edit. As the database size grew, the dumped file became more and more
+unwieldy. Ideally there would be one output file per table.
 
-I want a way to create the database from plaintext \*.sql files, with meaningful
-names, and commit those files, and not the binary representation of the
-database at all. To do that, I need a tool that will take a directory of \*.sql
-files, and create a sqlite database out of them.
+I also need to be able to compose one or more .sql files into a sqlite
+database, to regenerate the database after cloning, merging or pulling.
 
-This is fairly easy to achieve, but I also want to create foreign keys so some
-tables depend on others. This requires a tool that understands the dependencies
-of e.g. a `CREATE TABLE` statement, and makes sure the statements that create
-those dependencies are run first.
+This repository holds my solution to that problem.
 
-## A solution?
-Binary sqlite database files cannot be merged in git, but a plaintext set of
-`CREATE TABLE`, `INSERT INTO` statements *can* be.
+## Commands
 
-Changes to the game data and the structure that data is stored in could come
-from an editing tool or sqlite GUI modifying the binary database file, or from
-a text editor modifying the plaintext representation.
+[sqlite-squish](cmd/sqlite-squish) This is a fully featured tool to convert _from_ one of:
 
-Therefore basic functionality must include:
+- one or more sql statements piped in via stdin
+- a sqlite database
+- or a directory of *.sql files
 
-- Turn a collection of text files containing sql statements into a sqlite
-  database.
-  - Must understand foreign keys and other dependencies and run the statements
-    in the correct order.
-- Export the schema and data from a sqlite database into a set of text files.
-  - Must always output the same format and order, to eliminate diff noise.
-- For any given sqlite database, the tool must be able to export, import, then
-  export again without diffs from the first export, and the imported database
-  must be logically equivalent to the original database.
+and _to_ one of:
 
-## Examples
-Given a sqlite database called `database.sqlite3`, it is possible to decompose
-it to a series of text files like this:
-```bash
-sqlite3 database.sqlite3 .dump | sqlite-squish -v -out-dir ./database.sql
-```
+- stdout
+- a sqlite database
+- or a directory of *.sql files.
 
-Given a directory of .sql files called `database.sql`, it is possible to compose
-those files into a sqlite database like this:
-```bash
-sqlite-squish -in database.sql | sqlite3 database.sqlite3
-```
+It has a several flags to drive behaviour due to it's more complicated feature set.
 
-## Further work
+[compose-sqlite](cmd/compose-sqlite) This is a simple command to compose a
+directory of *.sql files into a sqlite database. It takes one argument to
+specify the directory to compose.
 
-- [ ] Extend sqlite-squish to open and read from a sqlite database directly
-- [ ] Extend sqlite-squish to create and write to a sqlite database directly
-- [x] Figure out a way to order INSERTs consistently.
+[decompose-sqlite](cmd/decompose/sqlite) This is a simple command to
+decompose a sqlite database into a directory of *.sql files. It takes one
+argument to specify the name of the database to decompose.
